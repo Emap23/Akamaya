@@ -10,21 +10,20 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Credenciales (usar variables de entorno en producción)
+// Busca esta sección y déjala así:
 const credentials = {
   license: {
     username: process.env.LICENSE_USERNAME || 'validfmf',
     password: process.env.LICENSE_PASSWORD || 'PMfmf2026#$'
   },
   constancy: {
-    username: process.env.CONSTANCY_USERNAME || 'Constfmf',
-    password: process.env.CONSTANCY_PASSWORD || 'PMC0nst#2026#'
+    username: process.env.CONSTANCY_USER || 'Constfmf', // Cambiado a USER
+    password: process.env.CONSTANCY_PASS || 'PMC0nst#2026#' // Cambiado a PASS
   }
 };
 
-// IDs válidos (almacenados de forma segura)
 const validIDs = {
-  license: process.env.VALID_LICENSE_ID || 'A9F3K7M2Q8R5LZ4X6B1',
+  license: process.env.LICENSE_KEY_MAIN || 'A9F3K7M2Q8R5LZ4X6B1', // Cambiado a LICENSE_KEY_MAIN
   constancy: [
     process.env.VALID_CONSTANCY_ID_1 || 'C7A9M2FQ',
     process.env.VALID_CONSTANCY_ID_2 || '9KX4B7L2'
