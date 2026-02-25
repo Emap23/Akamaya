@@ -1,0 +1,885 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Akamaya - Constancy Validation">
+        <meta name="author" content="">
+        <title>Akamaya | Constancy</title>
+
+        <!-- CSS FILES -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="css/bootstrap-icons.css" rel="stylesheet">
+        <link href="css/templatemo-leadership-event.css" rel="stylesheet">
+        
+        <style>
+            /* Custom styles for Constancy section */
+            .login-container {
+                max-width: 500px;
+                margin: 80px auto;
+                padding: 40px;
+                background: rgba(255, 255, 255, 0.95);
+                border-radius: 10px;
+                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            }
+
+            .login-container h2 {
+                text-align: center;
+                margin-bottom: 30px;
+                color: #333;
+            }
+
+            .form-group {
+                margin-bottom: 20px;
+            }
+
+            .form-group label {
+                display: block;
+                margin-bottom: 8px;
+                color: #333;
+                font-weight: 500;
+            }
+
+            .form-group input, .form-group select {
+                width: 100%;
+                padding: 12px;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                font-size: 14px;
+                transition: border-color 0.3s;
+            }
+
+            .form-group input:focus, .form-group select:focus {
+                outline: none;
+                border-color: #00d4ff;
+                box-shadow: 0 0 5px rgba(0, 212, 255, 0.3);
+            }
+
+            .captcha-container {
+                background: #f5f5f5;
+                padding: 15px;
+                border-radius: 5px;
+                margin-bottom: 20px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+
+            .captcha-text {
+                font-size: 24px;
+                font-weight: bold;
+                letter-spacing: 5px;
+                color: #333;
+                background: white;
+                padding: 10px 20px;
+                border-radius: 3px;
+                user-select: none;
+                flex: 1;
+            }
+
+            .captcha-refresh {
+                background: #00d4ff;
+                color: white;
+                border: none;
+                padding: 8px 15px;
+                border-radius: 3px;
+                cursor: pointer;
+                margin-left: 10px;
+                transition: background 0.3s;
+            }
+
+            .captcha-refresh:hover {
+                background: #0098cc;
+            }
+
+            .btn-submit {
+                width: 100%;
+                padding: 12px;
+                background: linear-gradient(135deg, #00d4ff 0%, #0098cc 100%);
+                color: white;
+                border: none;
+                border-radius: 5px;
+                font-size: 16px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: transform 0.2s, box-shadow 0.2s;
+            }
+
+            .btn-submit:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 5px 20px rgba(0, 212, 255, 0.4);
+            }
+
+            .btn-submit:disabled {
+                opacity: 0.6;
+                cursor: not-allowed;
+            }
+
+            .btn-verify {
+                width: 100%;
+                padding: 14px 24px;
+                background: linear-gradient(135deg, #00d4ff 0%, #0098cc 100%);
+                color: white;
+                border: none;
+                border-radius: 8px;
+                font-size: 16px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
+
+            .btn-verify:hover {
+                background: linear-gradient(135deg, #0098cc 0%, #006699 100%);
+                transform: translateY(-3px);
+                box-shadow: 0 8px 25px rgba(0, 212, 255, 0.5);
+            }
+
+            .btn-verify:active {
+                transform: translateY(-1px);
+            }
+
+            .btn-verify:disabled {
+                opacity: 0.6;
+                cursor: not-allowed;
+            }
+
+            .btn-back {
+                background: linear-gradient(135deg, #95a5a6 0%, #7f8c8d 100%);
+                padding: 10px 20px;
+                font-size: 14px;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            }
+
+            .btn-back:hover {
+                background: linear-gradient(135deg, #7f8c8d 0%, #5d6d7b 100%);
+            }
+
+            .btn-another {
+                background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+                margin-top: 15px;
+                box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+            }
+
+            .btn-another:hover {
+                background: linear-gradient(135deg, #229954 0%, #1e8449 100%);
+                box-shadow: 0 8px 25px rgba(39, 174, 96, 0.5);
+            }
+
+            .error-message {
+                color: #e74c3c;
+                font-size: 14px;
+                margin-top: 5px;
+                display: none;
+            }
+
+            .success-message {
+                color: #27ae60;
+                font-size: 14px;
+                margin-top: 5px;
+                display: none;
+            }
+
+            .loading-spinner {
+                display: inline-block;
+                width: 14px;
+                height: 14px;
+                border: 2px solid #f3f3f3;
+                border-top: 2px solid #00d4ff;
+                border-radius: 50%;
+                animation: spin 1s linear infinite;
+                margin-right: 8px;
+            }
+
+            @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+            }
+
+            .validation-section {
+                display: none;
+            }
+
+            .qr-container {
+                text-align: center;
+                padding: 40px;
+                background: white;
+                border-radius: 10px;
+                display: none;
+            }
+
+            .qr-container h3 {
+                color: #333;
+                margin-bottom: 20px;
+            }
+
+            .info-box {
+                background: #ecf0f1;
+                padding: 15px;
+                border-radius: 5px;
+                margin-bottom: 15px;
+                border-left: 4px solid #00d4ff;
+            }
+
+            .data-display {
+                background: #f9f9f9;
+                padding: 20px;
+                border-radius: 5px;
+                margin-bottom: 20px;
+                border: 1px solid #ddd;
+            }
+
+            .data-display p {
+                margin: 10px 0;
+                color: #333;
+            }
+
+            .data-display strong {
+                color: #00d4ff;
+            }
+
+            .back-btn {
+                background: #95a5a6;
+                color: white;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                margin-bottom: 20px;
+                transition: background 0.3s;
+            }
+
+            .back-btn:hover {
+                background: #7f8c8d;
+            }
+
+            .success-validation-box {
+                max-width: 500px;
+                margin: 0 auto;
+                padding: 40px;
+                background: white;
+                border-radius: 10px;
+                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+                text-align: center;
+            }
+
+            .success-icon {
+                width: 80px;
+                height: 80px;
+                margin: 0 auto 20px;
+                background: linear-gradient(135deg, #00d4ff 0%, #0098cc 100%);
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 40px;
+                color: white;
+                font-weight: bold;
+                box-shadow: 0 5px 20px rgba(0, 212, 255, 0.3);
+            }
+
+            .success-validation-box h3 {
+                color: #00d4ff;
+                font-size: 28px;
+                margin: 20px 0 10px;
+                font-weight: bold;
+            }
+
+            .success-validation-box p {
+                color: #666;
+                font-size: 16px;
+                margin-bottom: 20px;
+            }
+
+            .validation-details {
+                background: #f0f8ff;
+                padding: 20px;
+                border-radius: 8px;
+                margin: 20px 0;
+                border-left: 4px solid #00d4ff;
+                text-align: left;
+            }
+
+            .validation-details p {
+                margin: 8px 0;
+                color: #333;
+            }
+
+            .validation-details strong {
+                color: #00d4ff;
+            }
+
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 0 15px;
+            }
+
+            .validation-container {
+                padding: 20px 0;
+            }
+
+            .validation-card {
+                background: white;
+                border-radius: 8px;
+                padding: 35px;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+                border-top: 3px solid #00d4ff;
+                transition: all 0.3s ease;
+            }
+
+            .validation-card:hover {
+                box-shadow: 0 5px 20px rgba(0, 212, 255, 0.15);
+                transform: translateY(-2px);
+            }
+
+            .validation-title {
+                font-size: 22px;
+                color: #333;
+                margin: 0 0 15px 0;
+                font-weight: 600;
+                letter-spacing: 0.5px;
+            }
+
+            .validation-separator {
+                height: 2px;
+                background: linear-gradient(90deg, #00d4ff, transparent);
+                margin-bottom: 20px;
+            }
+
+            .single-validation-section {
+                max-width: 600px;
+                margin: 40px auto;
+            }
+        </style>
+    </head>
+    
+    <body>
+
+        <nav class="navbar navbar-expand-lg">
+            <div class="container">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <img src="images/logak.png" width="250px" alt="">
+
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.html">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.html#section_2">Our Story</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="servicesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Services
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="servicesDropdown">
+                                <li>
+                                    <a class="dropdown-item" href="pdf/server.pdf" target="_blank">
+                                        Server
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.html#section_4">Presence</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="txt.html">Brands</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="categoria.html">Constancy</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.html#section_7">Contact</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <main>
+            <!-- Hero Section -->
+            <section class="hero" id="section_1">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-5 col-12 m-auto">
+                            <div class="hero-text">
+                                <h1 class="text-white mb-4"><u class="text-info">Constancy</u> Verification</h1>
+                                <div class="d-flex justify-content-center align-items-center">
+                                    <span class="date-text">Validation</span>
+                                    <span class="location-text">Verification</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="video-wrap">
+                    <video autoplay loop muted playsinline class="custom-video" poster="">
+                        <source src="videos/akamaya.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </section>
+
+            <!-- Login Section -->
+            <section id="login-section">
+                <div class="login-container">
+                    <h2>Constancy Access</h2>
+
+                    <div class="form-group">
+                        <label for="username">Username:</label>
+                        <input type="text" id="username" placeholder="Enter your username">
+                        <div class="error-message" id="username-error"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password:</label>
+                        <input type="password" id="password" placeholder="Enter your password">
+                        <div class="error-message" id="password-error"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>CAPTCHA Verification:</label>
+                        <div class="captcha-container">
+                            <div class="captcha-text" id="captcha-text"></div>
+                            <button type="button" class="captcha-refresh" onclick="generateCaptcha()">🔄</button>
+                        </div>
+                        <input type="text" id="captcha-input" placeholder="Enter the CAPTCHA code">
+                        <div class="error-message" id="captcha-error"></div>
+                    </div>
+
+                    <button class="btn-submit" id="login-btn" onclick="validateLogin()">Login</button>
+                    <div class="error-message" id="login-error"></div>
+                    <div class="success-message" id="login-success"></div>
+                </div>
+            </section>
+
+            <!-- License Validation Section -->
+            <section id="license-validation-section" class="validation-section">
+                <div class="single-validation-section">
+                    <button class="back-btn btn-back" onclick="backToLogin()">← Back to Login</button>
+
+                    <div class="validation-card">
+                        <h2 class="validation-title">License Verification</h2>
+                        <div class="validation-separator"></div>
+                        <div class="info-box">
+                            <p>Enter your License ID to verify its validity.</p>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="license-id">License ID:</label>
+                            <input type="text" id="license-id" placeholder="Enter your License ID" maxlength="20">
+                            <div class="error-message" id="license-error"></div>
+                        </div>
+
+                        <button class="btn-submit btn-verify" id="license-btn" onclick="validateLicense()">Verify License</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Constancy Validation Section -->
+            <section id="constancy-validation-section" class="validation-section">
+                <div class="single-validation-section">
+                    <button class="back-btn btn-back" onclick="backToLogin()">← Back to Login</button>
+
+                    <div class="validation-card">
+                        <h2 class="validation-title">Constancy Verification</h2>
+                        <div class="validation-separator"></div>
+                        <div class="info-box">
+                            <p>Enter your Constancy ID to verify its validity.</p>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="constancy-id">Constancy ID:</label>
+                            <input type="text" id="constancy-id" placeholder="Enter your Constancy ID" maxlength="10">
+                            <div class="error-message" id="constancy-error"></div>
+                        </div>
+
+                        <button class="btn-submit btn-verify" id="constancy-btn" onclick="validateConstancy()">Verify Constancy</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- License Success Section -->
+            <section id="license-success" class="qr-container">
+                <button class="back-btn btn-back" onclick="backToValidation()">← Back</button>
+                <div class="success-validation-box">
+                    <div class="success-icon">✓</div>
+                    <h3>License is Valid</h3>
+                    <p>Your license has been successfully verified.</p>
+                    <div class="validation-details" id="license-details"></div>
+                    <button class="btn-submit btn-another" onclick="newValidation()">Verify Another</button>
+                </div>
+            </section>
+
+            <!-- Constancy Success Section -->
+            <section id="constancy-success" class="qr-container">
+                <button class="back-btn btn-back" onclick="backToValidation()">← Back</button>
+                <div class="success-validation-box">
+                    <div class="success-icon">✓</div>
+                    <h3>Constancy is Valid</h3>
+                    <p>Your constancy has been successfully verified.</p>
+                    <div class="validation-details" id="constancy-details"></div>
+                    <button class="btn-submit btn-another" onclick="newValidation()">Verify Another</button>
+                </div>
+            </section>
+
+        </main>
+
+        <footer class="site-footer">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-12 col-12 border-bottom pb-5 mb-5">
+                        <div class="d-flex">
+                            <img src="images/logak.png" width="250px" alt="">
+                        </div>
+                    </div>
+                    <div class="col-lg-7 col-12">
+                        <ul class="footer-menu d-flex flex-wrap">
+                            <li class="footer-menu-item"><a href="ptivacy.html" class="footer-menu-link">Privacy and Terms</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-5 col-12 ms-lg-auto">
+                        <div class="copyright-text-wrap d-flex align-items-center">
+                            <p class="copyright-text ms-lg-auto me-4 mb-0">Copyright © 2024 Akamaya Co. Ltd.<br>All Rights Reserved.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <!-- Required Libraries -->
+        <script src="js/jquery.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+
+        <script>
+            // ===== CONFIGURACIÓN AUTOMÁTICA DE API URL =====
+            // Detecta automáticamente si estás en local o producción
+            function getAPIBaseURL() {
+                const hostname = window.location.hostname;
+                const port = window.location.port;
+                
+                // Si estás en localhost, usa localhost:3000
+                if (hostname === 'localhost' || hostname === '127.0.0.1') {
+                    return 'http://localhost:3000';
+                }
+                
+                // Si estás en producción, usa la URL actual sin el puerto
+                if (port) {
+                    return `${window.location.protocol}//${hostname}:${port}`;
+                }
+                
+                return `${window.location.protocol}//${hostname}`;
+            }
+
+            const API_BASE_URL = getAPIBaseURL();
+            console.log('API URL:', API_BASE_URL); // Para debugging
+
+            // Global variables
+            let currentCaptcha = '';
+            let currentUserType = '';
+            let authToken = null;
+
+            // Initialize CAPTCHA on load
+            document.addEventListener('DOMContentLoaded', function() {
+                generateCaptcha();
+            });
+
+            // Generate CAPTCHA
+            function generateCaptcha() {
+                const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+                currentCaptcha = '';
+                for (let i = 0; i < 6; i++) {
+                    currentCaptcha += chars.charAt(Math.floor(Math.random() * chars.length));
+                }
+                document.getElementById('captcha-text').textContent = currentCaptcha;
+                document.getElementById('captcha-input').value = '';
+            }
+
+            // Validate login
+            async function validateLogin() {
+                // Clear previous errors
+                document.getElementById('username-error').style.display = 'none';
+                document.getElementById('password-error').style.display = 'none';
+                document.getElementById('captcha-error').style.display = 'none';
+                document.getElementById('login-error').style.display = 'none';
+
+                const username = document.getElementById('username').value.trim();
+                const password = document.getElementById('password').value.trim();
+                const captcha = document.getElementById('captcha-input').value.trim();
+                const loginBtn = document.getElementById('login-btn');
+
+                let isValid = true;
+
+                // Validaciones básicas
+                if (username === '') {
+                    showError('username-error', 'Username is required');
+                    isValid = false;
+                }
+
+                if (password === '') {
+                    showError('password-error', 'Password is required');
+                    isValid = false;
+                }
+
+                if (captcha === '') {
+                    showError('captcha-error', 'CAPTCHA is required');
+                    isValid = false;
+                } else if (captcha !== currentCaptcha) {
+                    showError('captcha-error', 'CAPTCHA incorrect. Please try again');
+                    generateCaptcha();
+                    isValid = false;
+                }
+
+                if (!isValid) return;
+
+                // Deshabilitar botón y mostrar cargando
+                loginBtn.disabled = true;
+                loginBtn.innerHTML = '<span class="loading-spinner"></span>Validating...';
+
+                try {
+                    const response = await fetch(`${API_BASE_URL}/api/login`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ username, password })
+                    });
+
+                    const data = await response.json();
+
+                    if (data.success) {
+                        currentUserType = data.userType;
+                        authToken = data.token;
+                        
+                        document.getElementById('login-success').textContent = '✓ Access granted. Loading...';
+                        document.getElementById('login-success').style.display = 'block';
+
+                        setTimeout(() => {
+                            hideAllSections();
+                            
+                            if (data.userType === 'license') {
+                                document.getElementById('license-validation-section').style.display = 'block';
+                            } else if (data.userType === 'constancy') {
+                                document.getElementById('constancy-validation-section').style.display = 'block';
+                            }
+
+                            window.scrollTo(0, 0);
+                        }, 1500);
+                    } else {
+                        showError('login-error', data.error || 'Invalid credentials');
+                        generateCaptcha();
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    showError('login-error', 'Error connecting to server. Please try again later.');
+                    generateCaptcha();
+                } finally {
+                    // Re-habilitar botón
+                    loginBtn.disabled = false;
+                    loginBtn.innerHTML = 'Login';
+                }
+            }
+
+            // Show error
+            function showError(elementId, message) {
+                const element = document.getElementById(elementId);
+                element.textContent = message;
+                element.style.display = 'block';
+            }
+
+            // Hide all sections
+            function hideAllSections() {
+                document.getElementById('login-section').style.display = 'none';
+                document.getElementById('license-validation-section').style.display = 'none';
+                document.getElementById('constancy-validation-section').style.display = 'none';
+                document.getElementById('license-success').style.display = 'none';
+                document.getElementById('constancy-success').style.display = 'none';
+                document.getElementById('login-success').style.display = 'none';
+            }
+
+            // Validate License ID
+            async function validateLicense() {
+                document.getElementById('license-error').style.display = 'none';
+                const licenseId = document.getElementById('license-id').value.trim();
+                const licenseBtn = document.getElementById('license-btn');
+
+                if (licenseId === '') {
+                    showError('license-error', 'License ID is required');
+                    return;
+                }
+
+                licenseBtn.disabled = true;
+                licenseBtn.innerHTML = '<span class="loading-spinner"></span>Verifying...';
+
+                try {
+                    const response = await fetch(`${API_BASE_URL}/api/validate-license`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ licenseId })
+                    });
+
+                    const data = await response.json();
+
+                    if (data.success) {
+                        hideAllSections();
+                        document.getElementById('license-success').style.display = 'block';
+                        
+                        const detailsHTML = `
+                            <p style="margin-top:20px; color:#27ae60; font-weight:bold; font-size:18px;">
+                                ✓ License Successfully Verified
+                            </p>
+                        `;
+                        document.getElementById('license-details').innerHTML = detailsHTML;
+                        window.scrollTo(0, 0);
+                    } else {
+                        showError('license-error', '❌ ' + (data.error || 'Invalid License ID'));
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    showError('license-error', 'Error connecting to server');
+                } finally {
+                    licenseBtn.disabled = false;
+                    licenseBtn.innerHTML = 'Verify License';
+                }
+            }
+
+            // Validate Constancy ID
+            async function validateConstancy() {
+                document.getElementById('constancy-error').style.display = 'none';
+                const constancyId = document.getElementById('constancy-id').value.trim();
+                const constancyBtn = document.getElementById('constancy-btn');
+
+                if (constancyId === '') {
+                    showError('constancy-error', 'Constancy ID is required');
+                    return;
+                }
+
+                constancyBtn.disabled = true;
+                constancyBtn.innerHTML = '<span class="loading-spinner"></span>Verifying...';
+
+                try {
+                    const response = await fetch(`${API_BASE_URL}/api/validate-constancy`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ constancyId })
+                    });
+
+                    const data = await response.json();
+
+                    if (data.success) {
+                        hideAllSections();
+                        document.getElementById('constancy-success').style.display = 'block';
+                        
+                        const detailsHTML = `
+                            <p style="font-size:18px; margin-top:15px;">
+                                <strong>Name:</strong> ${data.details.name}
+                            </p>
+                            <p style="margin-top:20px; color:#27ae60; font-weight:bold; font-size:18px;">
+                                ✓ Constancy Successfully Verified
+                            </p>
+                        `;
+                        document.getElementById('constancy-details').innerHTML = detailsHTML;
+                        window.scrollTo(0, 0);
+                    } else {
+                        showError('constancy-error', '❌ ' + (data.error || 'Invalid Constancy ID'));
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    showError('constancy-error', 'Error connecting to server');
+                } finally {
+                    constancyBtn.disabled = false;
+                    constancyBtn.innerHTML = 'Verify Constancy';
+                }
+            }
+
+            // Back to validation section
+            function backToValidation() {
+                hideAllSections();
+                
+                document.getElementById('license-id').value = '';
+                document.getElementById('constancy-id').value = '';
+                document.getElementById('license-error').style.display = 'none';
+                document.getElementById('constancy-error').style.display = 'none';
+                
+                if (currentUserType === 'license') {
+                    document.getElementById('license-validation-section').style.display = 'block';
+                } else if (currentUserType === 'constancy') {
+                    document.getElementById('constancy-validation-section').style.display = 'block';
+                }
+                
+                window.scrollTo(0, 0);
+            }
+
+            // Back to login
+            function backToLogin() {
+                hideAllSections();
+                document.getElementById('login-section').style.display = 'block';
+                document.getElementById('login-success').style.display = 'none';
+                
+                // Clear forms
+                document.getElementById('username').value = '';
+                document.getElementById('password').value = '';
+                document.getElementById('captcha-input').value = '';
+                document.getElementById('license-id').value = '';
+                document.getElementById('constancy-id').value = '';
+                document.getElementById('license-error').style.display = 'none';
+                document.getElementById('constancy-error').style.display = 'none';
+                
+                authToken = null;
+                currentUserType = '';
+                generateCaptcha();
+                window.scrollTo(0, 0);
+            }
+
+            // New validation
+            function newValidation() {
+                hideAllSections();
+                
+                document.getElementById('license-id').value = '';
+                document.getElementById('constancy-id').value = '';
+                document.getElementById('license-error').style.display = 'none';
+                document.getElementById('constancy-error').style.display = 'none';
+                
+                if (currentUserType === 'license') {
+                    document.getElementById('license-validation-section').style.display = 'block';
+                } else if (currentUserType === 'constancy') {
+                    document.getElementById('constancy-validation-section').style.display = 'block';
+                }
+                
+                window.scrollTo(0, 0);
+            }
+
+            // Allow Enter key in inputs
+            document.addEventListener('DOMContentLoaded', function() {
+                document.getElementById('password').addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') validateLogin();
+                });
+
+                document.getElementById('captcha-input').addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') validateLogin();
+                });
+
+                document.getElementById('license-id').addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') validateLicense();
+                });
+
+                document.getElementById('constancy-id').addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') validateConstancy();
+                });
+            });
+        </script>
+
+    </body>
+</html>
