@@ -3,9 +3,9 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="Akamaya - Category Validation">
+        <meta name="description" content="Akamaya - Constancy Validation">
         <meta name="author" content="">
-        <title>Akamaya | Category</title>
+        <title>Akamaya | Constancy</title>
 
         <!-- CSS FILES -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,7 +16,7 @@
         <link href="css/templatemo-leadership-event.css" rel="stylesheet">
         
         <style>
-            /* Custom styles for Category section */
+            /* Custom styles for Constancy section */
             .login-container {
                 max-width: 500px;
                 margin: 80px auto;
@@ -113,6 +113,11 @@
                 box-shadow: 0 5px 20px rgba(0, 212, 255, 0.4);
             }
 
+            .btn-submit:disabled {
+                opacity: 0.6;
+                cursor: not-allowed;
+            }
+
             .btn-verify {
                 width: 100%;
                 padding: 14px 24px;
@@ -137,6 +142,11 @@
 
             .btn-verify:active {
                 transform: translateY(-1px);
+            }
+
+            .btn-verify:disabled {
+                opacity: 0.6;
+                cursor: not-allowed;
             }
 
             .btn-back {
@@ -175,6 +185,22 @@
                 display: none;
             }
 
+            .loading-spinner {
+                display: inline-block;
+                width: 14px;
+                height: 14px;
+                border: 2px solid #f3f3f3;
+                border-top: 2px solid #00d4ff;
+                border-radius: 50%;
+                animation: spin 1s linear infinite;
+                margin-right: 8px;
+            }
+
+            @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+            }
+
             .validation-section {
                 display: none;
             }
@@ -192,37 +218,12 @@
                 margin-bottom: 20px;
             }
 
-            .qr-code-box {
-                max-width: 400px;
-                margin: 30px auto;
-                padding: 30px;
-                background: linear-gradient(135deg, #00d4ff 0%, #0098cc 100%);
-                border-radius: 15px;
-                box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                min-height: 400px;
-            }
-
-            #qr-code-container {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                width: 100%;
-            }
-
             .info-box {
                 background: #ecf0f1;
                 padding: 15px;
                 border-radius: 5px;
                 margin-bottom: 15px;
                 border-left: 4px solid #00d4ff;
-            }
-
-            .form-section {
-                max-width: 600px;
-                margin: 40px auto;
             }
 
             .data-display {
@@ -254,24 +255,6 @@
             }
 
             .back-btn:hover {
-                background: #7f8c8d;
-            }
-
-            .button-group {
-                display: flex;
-                gap: 10px;
-                margin-top: 20px;
-            }
-
-            .button-group .btn-submit {
-                flex: 1;
-            }
-
-            .button-group .btn-submit:nth-child(2) {
-                background: #95a5a6;
-            }
-
-            .button-group .btn-submit:nth-child(2):hover {
                 background: #7f8c8d;
             }
 
@@ -368,6 +351,11 @@
                 background: linear-gradient(90deg, #00d4ff, transparent);
                 margin-bottom: 20px;
             }
+
+            .single-validation-section {
+                max-width: 600px;
+                margin: 40px auto;
+            }
         </style>
     </head>
     
@@ -424,10 +412,10 @@
                     <div class="row">
                         <div class="col-lg-5 col-12 m-auto">
                             <div class="hero-text">
-                                <h1 class="text-white mb-4"><u class="text-info">Credential</u> Verification</h1>
+                                <h1 class="text-white mb-4"><u class="text-info">Constancy</u> Verification</h1>
                                 <div class="d-flex justify-content-center align-items-center">
-                                    <span class="date-text">Constancy</span>
-                                    <span class="location-text">Validation</span>
+                                    <span class="date-text">Validation</span>
+                                    <span class="location-text">Verification</span>
                                 </div>
                             </div>
                         </div>
@@ -467,81 +455,78 @@
                         <div class="error-message" id="captcha-error"></div>
                     </div>
 
-                    <button class="btn-submit" onclick="validateLogin()">Login</button>
+                    <button class="btn-submit" id="login-btn" onclick="validateLogin()">Login</button>
                     <div class="error-message" id="login-error"></div>
                     <div class="success-message" id="login-success"></div>
                 </div>
             </section>
 
-            <!-- Validation Section -->
-            <section id="validation-section" class="validation-section">
-                <div class="form-section">
+            <!-- License Validation Section -->
+            <section id="license-validation-section" class="validation-section">
+                <div class="single-validation-section">
                     <button class="back-btn btn-back" onclick="backToLogin()">← Back to Login</button>
 
-                    <div class="container validation-container">
-                        <div class="row">
-                            <!-- CONSTANCIA VALIDATION SECTION -->
-                            <div class="col-lg-6 col-12">
-                                <div class="validation-card">
-                                    <h2 class="validation-title">Credential Verification</h2>
-                                    <div class="validation-separator"></div>
-                                    <div class="info-box">
-                                        <p>Enter your Credential ID to verify its validity.</p>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="constancia-id">Credential ID:</label>
-                                        <input type="text" id="constancia-id" placeholder="e.g. CONST-2024-001" maxlength="20">
-                                        <div class="error-message" id="constancia-error"></div>
-                                    </div>
-
-                                    <button class="btn-submit btn-verify" onclick="validateConstancia()">Verify Credential</button>
-                                </div>
-                            </div>
-
-                            <!-- LICENCIA VALIDATION SECTION -->
-                            <div class="col-lg-6 col-12">
-                                <div class="validation-card">
-                                    <h2 class="validation-title">License Verification</h2>
-                                    <div class="validation-separator"></div>
-                                    <div class="info-box">
-                                        <p>Enter your License ID to verify its validity.</p>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="licencia-id">License ID:</label>
-                                        <input type="text" id="licencia-id" placeholder="e.g. LIC-2024-001" maxlength="20">
-                                        <div class="error-message" id="licencia-error"></div>
-                                    </div>
-
-                                    <button class="btn-submit btn-verify" onclick="validateLicencia()">Verify License</button>
-                                </div>
-                            </div>
+                    <div class="validation-card">
+                        <h2 class="validation-title">License Verification</h2>
+                        <div class="validation-separator"></div>
+                        <div class="info-box">
+                            <p>Enter your License ID to verify its validity.</p>
                         </div>
+
+                        <div class="form-group">
+                            <label for="license-id">License ID:</label>
+                            <input type="text" id="license-id" placeholder="Enter your License ID" maxlength="20">
+                            <div class="error-message" id="license-error"></div>
+                        </div>
+
+                        <button class="btn-submit btn-verify" id="license-btn" onclick="validateLicense()">Verify License</button>
                     </div>
                 </div>
             </section>
 
-            <!-- Validation Success Section for Constancia -->
-            <section id="constancia-success" class="qr-container">
-                <button class="back-btn btn-back" onclick="backToValidation()">← Back</button>
-                <div class="success-validation-box">
-                    <div class="success-icon">✓</div>
-                    <h3>Credential is Valid</h3>
-                    <p>Your credential has been successfully verified.</p>
-                    <div class="validation-details" id="constancia-details"></div>
-                    <button class="btn-submit btn-another" onclick="newValidation()">Verify Another</button>
+            <!-- Constancy Validation Section -->
+            <section id="constancy-validation-section" class="validation-section">
+                <div class="single-validation-section">
+                    <button class="back-btn btn-back" onclick="backToLogin()">← Back to Login</button>
+
+                    <div class="validation-card">
+                        <h2 class="validation-title">Constancy Verification</h2>
+                        <div class="validation-separator"></div>
+                        <div class="info-box">
+                            <p>Enter your Constancy ID to verify its validity.</p>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="constancy-id">Constancy ID:</label>
+                            <input type="text" id="constancy-id" placeholder="Enter your Constancy ID" maxlength="10">
+                            <div class="error-message" id="constancy-error"></div>
+                        </div>
+
+                        <button class="btn-submit btn-verify" id="constancy-btn" onclick="validateConstancy()">Verify Constancy</button>
+                    </div>
                 </div>
             </section>
 
-            <!-- Validation Success Section for Licencia -->
-            <section id="licencia-success" class="qr-container">
+            <!-- License Success Section -->
+            <section id="license-success" class="qr-container">
                 <button class="back-btn btn-back" onclick="backToValidation()">← Back</button>
                 <div class="success-validation-box">
                     <div class="success-icon">✓</div>
                     <h3>License is Valid</h3>
                     <p>Your license has been successfully verified.</p>
-                    <div class="validation-details" id="licencia-details"></div>
+                    <div class="validation-details" id="license-details"></div>
+                    <button class="btn-submit btn-another" onclick="newValidation()">Verify Another</button>
+                </div>
+            </section>
+
+            <!-- Constancy Success Section -->
+            <section id="constancy-success" class="qr-container">
+                <button class="back-btn btn-back" onclick="backToValidation()">← Back</button>
+                <div class="success-validation-box">
+                    <div class="success-icon">✓</div>
+                    <h3>Constancy is Valid</h3>
+                    <p>Your constancy has been successfully verified.</p>
+                    <div class="validation-details" id="constancy-details"></div>
                     <button class="btn-submit btn-another" onclick="newValidation()">Verify Another</button>
                 </div>
             </section>
@@ -573,32 +558,34 @@
         <!-- Required Libraries -->
         <script src="js/jquery.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
-        <!-- QRCode.js for generating QR codes -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
         <script>
+            // ===== CONFIGURACIÓN AUTOMÁTICA DE API URL =====
+            // Detecta automáticamente si estás en local o producción
+            function getAPIBaseURL() {
+                const hostname = window.location.hostname;
+                const port = window.location.port;
+                
+                // Si estás en localhost, usa localhost:3000
+                if (hostname === 'localhost' || hostname === '127.0.0.1') {
+                    return 'http://localhost:3000';
+                }
+                
+                // Si estás en producción, usa la URL actual sin el puerto
+                if (port) {
+                    return `${window.location.protocol}//${hostname}:${port}`;
+                }
+                
+                return `${window.location.protocol}//${hostname}`;
+            }
+
+            const API_BASE_URL = getAPIBaseURL();
+            console.log('API URL:', API_BASE_URL); // Para debugging
+
             // Global variables
             let currentCaptcha = '';
-            const correctUsername = 'admin';
-            const correctPassword = '12345';
-
-            // STORED DATA FOR CONSTANCIA
-            const storedConstanciaID = 'CONST-2024-001';
-            const constanciaData = {
-                id: 'CONST-2024-001',
-                type: 'Credential: Raul',
-                issuedDate: '01/15/2024',
-                expiryDate: '01/15/2025'
-            };
-
-            // STORED DATA FOR LICENCIA
-            const storedLicenciaID = 'LIC-2024-001';
-            const licenciaData = {
-                id: 'LIC-2024-001',
-                type: 'Credential: Laura',
-                issuedDate: '02/01/2024',
-                expiryDate: '02/01/2026'
-            };
+            let currentUserType = '';
+            let authToken = null;
 
             // Initialize CAPTCHA on load
             document.addEventListener('DOMContentLoaded', function() {
@@ -617,7 +604,7 @@
             }
 
             // Validate login
-            function validateLogin() {
+            async function validateLogin() {
                 // Clear previous errors
                 document.getElementById('username-error').style.display = 'none';
                 document.getElementById('password-error').style.display = 'none';
@@ -627,28 +614,21 @@
                 const username = document.getElementById('username').value.trim();
                 const password = document.getElementById('password').value.trim();
                 const captcha = document.getElementById('captcha-input').value.trim();
+                const loginBtn = document.getElementById('login-btn');
 
                 let isValid = true;
 
-                // Validate username
+                // Validaciones básicas
                 if (username === '') {
                     showError('username-error', 'Username is required');
                     isValid = false;
-                } else if (username !== correctUsername) {
-                    showError('username-error', 'Incorrect username');
-                    isValid = false;
                 }
 
-                // Validate password
                 if (password === '') {
                     showError('password-error', 'Password is required');
                     isValid = false;
-                } else if (password !== correctPassword) {
-                    showError('password-error', 'Incorrect password');
-                    isValid = false;
                 }
 
-                // Validate CAPTCHA
                 if (captcha === '') {
                     showError('captcha-error', 'CAPTCHA is required');
                     isValid = false;
@@ -658,18 +638,53 @@
                     isValid = false;
                 }
 
-                // If valid
-                if (isValid) {
-                    document.getElementById('login-success').textContent = '✓ Access granted. Loading...';
-                    document.getElementById('login-success').style.display = 'block';
-                    
-                    setTimeout(() => {
-                        document.getElementById('login-section').style.display = 'none';
-                        document.getElementById('validation-section').style.display = 'block';
-                        document.getElementById('constancia-success').style.display = 'none';
-                        document.getElementById('licencia-success').style.display = 'none';
-                        window.scrollTo(0, 0);
-                    }, 1500);
+                if (!isValid) return;
+
+                // Deshabilitar botón y mostrar cargando
+                loginBtn.disabled = true;
+                loginBtn.innerHTML = '<span class="loading-spinner"></span>Validating...';
+
+                try {
+                    const response = await fetch(`${API_BASE_URL}/api/login`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ username, password })
+                    });
+
+                    const data = await response.json();
+
+                    if (data.success) {
+                        currentUserType = data.userType;
+                        authToken = data.token;
+                        
+                        document.getElementById('login-success').textContent = '✓ Access granted. Loading...';
+                        document.getElementById('login-success').style.display = 'block';
+
+                        setTimeout(() => {
+                            hideAllSections();
+                            
+                            if (data.userType === 'license') {
+                                document.getElementById('license-validation-section').style.display = 'block';
+                            } else if (data.userType === 'constancy') {
+                                document.getElementById('constancy-validation-section').style.display = 'block';
+                            }
+
+                            window.scrollTo(0, 0);
+                        }, 1500);
+                    } else {
+                        showError('login-error', data.error || 'Invalid credentials');
+                        generateCaptcha();
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    showError('login-error', 'Error connecting to server. Please try again later.');
+                    generateCaptcha();
+                } finally {
+                    // Re-habilitar botón
+                    loginBtn.disabled = false;
+                    loginBtn.innerHTML = 'Login';
                 }
             }
 
@@ -680,121 +695,169 @@
                 element.style.display = 'block';
             }
 
-            // Validate Constancia ID
-            function validateConstancia() {
-                document.getElementById('constancia-error').style.display = 'none';
-                const constanciaInput = document.getElementById('constancia-id').value.trim().toUpperCase();
+            // Hide all sections
+            function hideAllSections() {
+                document.getElementById('login-section').style.display = 'none';
+                document.getElementById('license-validation-section').style.display = 'none';
+                document.getElementById('constancy-validation-section').style.display = 'none';
+                document.getElementById('license-success').style.display = 'none';
+                document.getElementById('constancy-success').style.display = 'none';
+                document.getElementById('login-success').style.display = 'none';
+            }
 
-                if (constanciaInput === '') {
-                    showError('constancia-error', 'Credential ID is required');
+            // Validate License ID
+            async function validateLicense() {
+                document.getElementById('license-error').style.display = 'none';
+                const licenseId = document.getElementById('license-id').value.trim();
+                const licenseBtn = document.getElementById('license-btn');
+
+                if (licenseId === '') {
+                    showError('license-error', 'License ID is required');
                     return;
                 }
 
-                if (constanciaInput === storedConstanciaID) {
-                    // Show success message
-                    document.getElementById('validation-section').style.display = 'none';
-                    document.getElementById('constancia-success').style.display = 'block';
-                    
-                    const detailsHTML = `
-                        <p><strong>Credential Name:</strong> ${constanciaData.type}</p>
-                        <p><strong>Credential ID:</strong> ${constanciaData.id}</p>
-                        <p><strong>Issue Date:</strong> ${constanciaData.issuedDate}</p>
-                        <p><strong>Expiry Date:</strong> ${constanciaData.expiryDate}</p>
-                        <p><strong>Document Type:</strong> Official Credential</p>
-                        <p><strong>Verification Status:</strong> ✓ VALID AND ACTIVE</p>
-                        <p style="margin-top: 15px; padding-top: 15px; border-top: 2px solid #00d4ff; color: #27ae60; font-weight: bold; font-size: 16px;">This credential is currently valid and active</p>
-                    `;
-                    document.getElementById('constancia-details').innerHTML = detailsHTML;
-                    window.scrollTo(0, 0);
-                } else {
-                    showError('constancia-error', '❌ Credential ID is invalid. Please verify and try again');
+                licenseBtn.disabled = true;
+                licenseBtn.innerHTML = '<span class="loading-spinner"></span>Verifying...';
+
+                try {
+                    const response = await fetch(`${API_BASE_URL}/api/validate-license`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ licenseId })
+                    });
+
+                    const data = await response.json();
+
+                    if (data.success) {
+                        hideAllSections();
+                        document.getElementById('license-success').style.display = 'block';
+                        
+                        const detailsHTML = `
+                            <p style="margin-top:20px; color:#27ae60; font-weight:bold; font-size:18px;">
+                                ✓ License Successfully Verified
+                            </p>
+                        `;
+                        document.getElementById('license-details').innerHTML = detailsHTML;
+                        window.scrollTo(0, 0);
+                    } else {
+                        showError('license-error', '❌ ' + (data.error || 'Invalid License ID'));
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    showError('license-error', 'Error connecting to server');
+                } finally {
+                    licenseBtn.disabled = false;
+                    licenseBtn.innerHTML = 'Verify License';
                 }
             }
 
-            // Validate Licencia ID
-            function validateLicencia() {
-                document.getElementById('licencia-error').style.display = 'none';
-                const licenciaInput = document.getElementById('licencia-id').value.trim().toUpperCase();
+            // Validate Constancy ID
+            async function validateConstancy() {
+                document.getElementById('constancy-error').style.display = 'none';
+                const constancyId = document.getElementById('constancy-id').value.trim();
+                const constancyBtn = document.getElementById('constancy-btn');
 
-                if (licenciaInput === '') {
-                    showError('licencia-error', 'License ID is required');
+                if (constancyId === '') {
+                    showError('constancy-error', 'Constancy ID is required');
                     return;
                 }
 
-                if (licenciaInput === storedLicenciaID) {
-                    // Show success message
-                    document.getElementById('validation-section').style.display = 'none';
-                    document.getElementById('licencia-success').style.display = 'block';
-                    
-                    const detailsHTML = `
-                        <p><strong>License Name:</strong> ${licenciaData.type}</p>
-                        <p><strong>License ID:</strong> ${licenciaData.id}</p>
-                        <p><strong>Issue Date:</strong> ${licenciaData.issuedDate}</p>
-                        <p><strong>Expiry Date:</strong> ${licenciaData.expiryDate}</p>
-                        <p><strong>Document Type:</strong> Official License</p>
-                        <p><strong>Verification Status:</strong> ✓ VALID AND ACTIVE</p>
-                        <p style="margin-top: 15px; padding-top: 15px; border-top: 2px solid #00d4ff; color: #27ae60; font-weight: bold; font-size: 16px;">This license is currently valid and active</p>
-                    `;
-                    document.getElementById('licencia-details').innerHTML = detailsHTML;
-                    window.scrollTo(0, 0);
-                } else {
-                    showError('licencia-error', '❌ License ID is invalid. Please verify and try again');
+                constancyBtn.disabled = true;
+                constancyBtn.innerHTML = '<span class="loading-spinner"></span>Verifying...';
+
+                try {
+                    const response = await fetch(`${API_BASE_URL}/api/validate-constancy`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ constancyId })
+                    });
+
+                    const data = await response.json();
+
+                    if (data.success) {
+                        hideAllSections();
+                        document.getElementById('constancy-success').style.display = 'block';
+                        
+                        const detailsHTML = `
+                            <p style="font-size:18px; margin-top:15px;">
+                                <strong>Name:</strong> ${data.details.name}
+                            </p>
+                            <p style="margin-top:20px; color:#27ae60; font-weight:bold; font-size:18px;">
+                                ✓ Constancy Successfully Verified
+                            </p>
+                        `;
+                        document.getElementById('constancy-details').innerHTML = detailsHTML;
+                        window.scrollTo(0, 0);
+                    } else {
+                        showError('constancy-error', '❌ ' + (data.error || 'Invalid Constancy ID'));
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    showError('constancy-error', 'Error connecting to server');
+                } finally {
+                    constancyBtn.disabled = false;
+                    constancyBtn.innerHTML = 'Verify Constancy';
                 }
             }
 
             // Back to validation section
             function backToValidation() {
-                document.getElementById('login-section').style.display = 'none';
-                document.getElementById('validation-section').style.display = 'block';
-                document.getElementById('constancia-success').style.display = 'none';
-                document.getElementById('licencia-success').style.display = 'none';
+                hideAllSections();
                 
-                document.getElementById('constancia-id').value = '';
-                document.getElementById('licencia-id').value = '';
-                document.getElementById('constancia-error').style.display = 'none';
-                document.getElementById('licencia-error').style.display = 'none';
+                document.getElementById('license-id').value = '';
+                document.getElementById('constancy-id').value = '';
+                document.getElementById('license-error').style.display = 'none';
+                document.getElementById('constancy-error').style.display = 'none';
+                
+                if (currentUserType === 'license') {
+                    document.getElementById('license-validation-section').style.display = 'block';
+                } else if (currentUserType === 'constancy') {
+                    document.getElementById('constancy-validation-section').style.display = 'block';
+                }
                 
                 window.scrollTo(0, 0);
             }
 
             // Back to login
             function backToLogin() {
+                hideAllSections();
                 document.getElementById('login-section').style.display = 'block';
-                document.getElementById('validation-section').style.display = 'none';
-                document.getElementById('constancia-success').style.display = 'none';
-                document.getElementById('licencia-success').style.display = 'none';
                 document.getElementById('login-success').style.display = 'none';
                 
                 // Clear forms
                 document.getElementById('username').value = '';
                 document.getElementById('password').value = '';
                 document.getElementById('captcha-input').value = '';
-                document.getElementById('constancia-id').value = '';
-                document.getElementById('licencia-id').value = '';
-                document.getElementById('constancia-error').style.display = 'none';
-                document.getElementById('licencia-error').style.display = 'none';
+                document.getElementById('license-id').value = '';
+                document.getElementById('constancy-id').value = '';
+                document.getElementById('license-error').style.display = 'none';
+                document.getElementById('constancy-error').style.display = 'none';
                 
+                authToken = null;
+                currentUserType = '';
                 generateCaptcha();
                 window.scrollTo(0, 0);
             }
 
             // New validation
             function newValidation() {
-                document.getElementById('login-section').style.display = 'none';
-                document.getElementById('validation-section').style.display = 'block';
-                document.getElementById('constancia-success').style.display = 'none';
-                document.getElementById('licencia-success').style.display = 'none';
-                document.getElementById('login-success').style.display = 'none';
+                hideAllSections();
                 
-                document.getElementById('username').value = '';
-                document.getElementById('password').value = '';
-                document.getElementById('captcha-input').value = '';
-                document.getElementById('constancia-id').value = '';
-                document.getElementById('licencia-id').value = '';
-                document.getElementById('constancia-error').style.display = 'none';
-                document.getElementById('licencia-error').style.display = 'none';
+                document.getElementById('license-id').value = '';
+                document.getElementById('constancy-id').value = '';
+                document.getElementById('license-error').style.display = 'none';
+                document.getElementById('constancy-error').style.display = 'none';
                 
-                generateCaptcha();
+                if (currentUserType === 'license') {
+                    document.getElementById('license-validation-section').style.display = 'block';
+                } else if (currentUserType === 'constancy') {
+                    document.getElementById('constancy-validation-section').style.display = 'block';
+                }
+                
                 window.scrollTo(0, 0);
             }
 
@@ -808,12 +871,12 @@
                     if (e.key === 'Enter') validateLogin();
                 });
 
-                document.getElementById('constancia-id').addEventListener('keypress', function(e) {
-                    if (e.key === 'Enter') validateConstancia();
+                document.getElementById('license-id').addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') validateLicense();
                 });
 
-                document.getElementById('licencia-id').addEventListener('keypress', function(e) {
-                    if (e.key === 'Enter') validateLicencia();
+                document.getElementById('constancy-id').addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') validateConstancy();
                 });
             });
         </script>
